@@ -27,6 +27,8 @@ const ParticleMesh = spawnPrimitive.cube(
 particles.particles.setParticlesProperties({mesh: ParticleMesh});
 particles.particles.setParticlesProperties({amount: 100, spread:90});
 
+particles.particles.play();
+
 console.log('amount:' + GetParticlesProperties.emissionShape.amount(particles)); 
 console.log('spread:' + GetParticlesProperties.emissionShape.spread(particles));}
 

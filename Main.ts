@@ -1,7 +1,7 @@
 import { Color } from "./Yuu API/Basic Types/Color";
 import { Quaternion } from "./Yuu API/Basic Types/Quaternion";
 import { Vector3 } from "./Yuu API/Basic Types/Vector3";
-import { Entity } from "./Yuu API/Entity";
+import { Entity } from "./Yuu API/Entity/Entity";
 import { GetParticlesProperties } from "./Yuu API/Particles/GetParticlesProperties";
 import { registerStart } from "./Yuu API/RegisterStart";
 import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
@@ -29,5 +29,5 @@ particles.particles.setParticlesProperties({amount: 100, spread:90});
 
 particles.particles.play();
 
-console.log('amount:' + GetParticlesProperties.emissionShape.amount(particles)); 
-console.log('spread:' + GetParticlesProperties.emissionShape.spread(particles));}
+console.log('amount:' + GetParticlesProperties.amount(particles)); 
+console.log('spread:' + GetParticlesProperties.spread(particles));}

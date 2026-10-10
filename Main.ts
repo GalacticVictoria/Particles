@@ -11,19 +11,8 @@ import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
 registerStart(start);
 function start() {
 
-    const Particle1 = spawnPrimitive.sphere(
-        3,
-        2,
-        new Vector3(-8.0, 1.5, -8.0),
-        0.5,
-        Quaternion.one,
-        new Color(0.0, 1.0, 0.0),
-        0.5,
-        `None`,
-        `Animated`,
-        undefined);
-
-
+    console.log('Hello World!');
+    
     const particles = new Entity(Vector3.up, Quaternion.one, Vector3.one, undefined, 'Empty');
     particles.particles.initialize();
 

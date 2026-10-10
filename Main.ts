@@ -24,7 +24,7 @@ const ParticleMesh = spawnPrimitive.cube(
 
 );
 
-particles.particles.setParticlesProperties({meshID: ParticleMesh.nodeID});
+particles.particles.setParticlesProperties({meshID: ParticleMesh.mesh.nodeID});
 particles.particles.setParticlesProperties({amount: 100, spread:90});
 
 particles.particles.play();

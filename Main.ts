@@ -2,7 +2,9 @@ import { Color } from "./Yuu API/Basic Types/Color";
 import { Quaternion } from "./Yuu API/Basic Types/Quaternion";
 import { Vector3 } from "./Yuu API/Basic Types/Vector3";
 import { Entity } from "./Yuu API/Entity/Entity";
+import { DefaultParticles } from "./Yuu API/Particles/DefaultParticles";
 import { GetParticlesProperties } from "./Yuu API/Particles/GetParticlesProperties";
+import { PlayParticles } from "./Yuu API/Particles/PlayParticles";
 import { registerStart } from "./Yuu API/RegisterStart";
 import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
 
@@ -25,9 +27,11 @@ const ParticleMesh = spawnPrimitive.cube(
 );
 
 particles.particles.setParticlesProperties({meshID: ParticleMesh.mesh.nodeID});
-particles.particles.setParticlesProperties({amount: 100, spread:90});
+particles.particles.setParticlesProperties({amount: 100, spread:90, isOneShot: false, lifetimeInSeconds: 8, isEmitting: true});
+
 
 particles.particles.play();
+
 
 console.log('amount:' + GetParticlesProperties.amount(particles)); 
 console.log('spread:' + GetParticlesProperties.spread(particles));}

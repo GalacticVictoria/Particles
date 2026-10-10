@@ -15,7 +15,7 @@ const particles = new Entity(Vector3.up, Quaternion.one, Vector3.one, undefined,
 particles.particles.initialize();
 
 const ParticleMesh = spawnPrimitive.cube(
-    new Vector3(0, 0, 0),
+    new Vector3(0, 1, 0),
     new Vector3(1, 1, 1),
     Quaternion.one,
     Color.white,
@@ -25,6 +25,8 @@ const ParticleMesh = spawnPrimitive.cube(
     undefined
 
 );
+
+
 
 particles.particles.setParticlesProperties({meshID: ParticleMesh.nodeID});
 particles.particles.setParticlesProperties({amount: 100, spread:90, isOneShot: false, lifetimeInSeconds: 8, isEmitting: true});

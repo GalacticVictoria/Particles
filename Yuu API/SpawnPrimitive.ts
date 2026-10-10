@@ -2,7 +2,7 @@ import { Color } from "./Basic Types/Color";
 import { Quaternion } from "./Basic Types/Quaternion";
 import { Vector2 } from "./Basic Types/Vector2";
 import { Vector3 } from "./Basic Types/Vector3";
-import { Entity } from "./Entity";
+import { Entity } from "./Entity/Entity";
 
 
 export const spawnPrimitive = {

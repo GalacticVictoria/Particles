@@ -1,8 +1,8 @@
 import { Async } from "../Async";
 import { Quaternion } from "../Basic Types/Quaternion";
 import { Vector3 } from "../Basic Types/Vector3";
-import { Entity } from "../Entity";
-import { ParticlesProperties } from "./DefaultParticles";
+import { Entity } from "../Entity/Entity";
+import { ParticlesProperties } from "./Particles";
 
 
 export const PlayParticles = {

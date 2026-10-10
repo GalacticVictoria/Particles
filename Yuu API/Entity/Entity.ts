@@ -1,13 +1,13 @@
-import { arrayUtils } from "./ArrayUtils";
-import { Color } from "./Basic Types/Color";
-import { Quaternion } from "./Basic Types/Quaternion";
-import { Vector2 } from "./Basic Types/Vector2";
-import { Vector3 } from "./Basic Types/Vector3";
-import { RayHit } from "./Raycast";
-import { Texture } from "./Texture";
-import { spawnPrimitive } from "./SpawnPrimitive";
+import { arrayUtils } from "../ArrayUtils";
+import { Color } from "../Basic Types/Color";
+import { Quaternion } from "../Basic Types/Quaternion";
+import { Vector2 } from "../Basic Types/Vector2";
+import { Vector3 } from "../Basic Types/Vector3";
+import { ParticlesProperties } from "../Particles/Particles";
+import { RayHit } from "../Raycast";
+import { spawnPrimitive } from "../SpawnPrimitive";
+import { Texture } from "../Texture";
 import { entity_Data, OccupiedTriggerPayload, OnUpdatePayload, WhatCanTrigger } from "./Entity_Data";
-import { ParticlesProperties } from "./Particles/DefaultParticles";
 
 
 /**
@@ -15,6 +15,7 @@ import { ParticlesProperties } from "./Particles/DefaultParticles";
  */
 export class Entity {
   public nodeID: number | undefined;
+  public uniqueID: string;
   public type: BaseNodeTypes | undefined;
   private childNodeIDs: number[] = [];
 
@@ -161,6 +162,8 @@ export class Entity {
    */
   constructor(pos: Vector3, rot: Quaternion, scale: Vector3, parent: Entity | undefined, type: BaseNodeTypes) {
     this.nodeID = Godot.node.create.base(parent?.nodeID, type);
+    // this.uniqueID = crypto.randomUUID();
+    this.uniqueID = 'Hello Loser';
 
     if (this.nodeID) {
       Entity.entityMap.set(this.nodeID, this);
@@ -1084,15 +1087,17 @@ export class Entity {
     /**
      * Initializes the particles with default values if not already initialized
      */
-    initialize: () => {
+    initialize: (properties: Partial<ParticlesProperties> = entity_Data.defaultParticlesProperties) => {
       if (this.nodeID) {
         if (this.particles.nodeID === undefined) {
           this.particles.nodeID = Godot.node.create.particles(this.nodeID);
 
           if (this.particles.nodeID) {
             Godot.node.particles.initialize(this.particles.nodeID);
-          
+
             this.childNodeIDs.push(this.particles.nodeID);
+
+            this.particles.setParticlesProperties(properties);
           }
         }
       }
@@ -1104,11 +1109,13 @@ export class Entity {
      */
     setParticlesProperties: (properties: Partial<ParticlesProperties>) => {
       if (this.nodeID) {
-        this.particles.initialize();
-
         if (this.particles.nodeID) {
-          if (properties.mesh?.mesh.nodeID) {
-            Godot.node.particles.mesh.set(this.particles.nodeID, properties.mesh.mesh.nodeID);
+          if (properties.meshID) {
+            const mesh = Entity.getEntityByID(properties.meshID);
+
+            if (mesh?.mesh.nodeID) {
+              Godot.node.particles.mesh.set(this.particles.nodeID, mesh.mesh.nodeID);
+            }
           }
 
           if (properties.emissionShape) {
@@ -1176,6 +1183,10 @@ export class Entity {
             Godot.node.particles.lifetime.set(this.particles.nodeID, properties.lifetimeInSeconds);
           }
 
+          if (properties.speedScale) {
+            Godot.node.particles.speedScale.set(this.particles.nodeID, properties.speedScale);
+          }
+
           if (properties.scaleMin) {
             Godot.node.particles.scale.min.set(this.particles.nodeID, properties.scaleMin);
           }
@@ -1192,6 +1203,20 @@ export class Entity {
             Godot.node.particles.initialVelocity.max.set(this.particles.nodeID, properties.initialVelocityMax);
           }
 
+          if (properties.rotationVelocityMin === undefined && properties.rotationVelocityMax === undefined) {
+            Godot.node.particles.rotationVelocity.isEnabled.set(this.particles.nodeID, false);
+          }
+          else {
+            Godot.node.particles.rotationVelocity.isEnabled.set(this.particles.nodeID, true);
+
+            if (properties.rotationVelocityMin) {
+              Godot.node.particles.rotationVelocity.min.set(this.particles.nodeID, properties.rotationVelocityMin.x, properties.rotationVelocityMin.y, properties.rotationVelocityMin.z);
+            }
+            if (properties.rotationVelocityMax) {
+              Godot.node.particles.rotationVelocity.max.set(this.particles.nodeID, properties.rotationVelocityMax.x, properties.rotationVelocityMax.y, properties.rotationVelocityMax.z);
+            }
+          }
+
           if (properties.gravity) {
             Godot.node.particles.gravity.set(this.particles.nodeID, properties.gravity.x, properties.gravity.y, properties.gravity.z);
           }
@@ -1204,9 +1229,42 @@ export class Entity {
             Godot.node.particles.spread.set(this.particles.nodeID, properties.spread);
           }
 
+          if (properties.tangentialAccelMin) {
+            Godot.node.particles.tangentialAcceleration.min.set(this.particles.nodeID, properties.tangentialAccelMin);
+          }
+
+          if (properties.tangentialAccelMax) {
+            Godot.node.particles.tangentialAcceleration.max.set(this.particles.nodeID, properties.tangentialAccelMax);
+          }
+
+          if (properties.turbulence) {
+            if (properties.turbulence.noiseStrength === undefined && properties.turbulence.noiseScale === undefined && properties.turbulence.noiseSpeed === undefined && properties.turbulence.noiseSpeedRandom === undefined) {
+              Godot.node.particles.turbulence.isEnabled.set(this.particles.nodeID, false);
+            }
+            else {
+              Godot.node.particles.turbulence.isEnabled.set(this.particles.nodeID, true);
+
+              if (properties.turbulence.noiseStrength) {
+                Godot.node.particles.turbulence.noiseStrength.set(this.particles.nodeID, properties.turbulence.noiseStrength);
+              }
+              if (properties.turbulence.noiseScale) {
+                Godot.node.particles.turbulence.noiseScale.set(this.particles.nodeID, properties.turbulence.noiseScale);
+              }
+              if (properties.turbulence.noiseSpeed) {
+                Godot.node.particles.turbulence.noiseSpeed.set(this.particles.nodeID, properties.turbulence.noiseSpeed.x, properties.turbulence.noiseSpeed.y, properties.turbulence.noiseSpeed.z);
+              }
+              if (properties.turbulence.noiseSpeedRandom) {
+                Godot.node.particles.turbulence.noiseSpeedRandom.set(this.particles.nodeID, properties.turbulence.noiseSpeedRandom);
+              }
+            }
+          }
+
           if (properties.transformAlign) {
             Godot.node.particles.transformAlign.set(this.particles.nodeID, properties.transformAlign);
           }
+        }
+        else {
+          this.particles.initialize(properties);
         }
       }
     },

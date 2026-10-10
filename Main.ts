@@ -31,4 +31,3 @@ particles.particles.play();
 
 console.log('amount:' + GetParticlesProperties.emissionShape.amount(particles)); 
 console.log('spread:' + GetParticlesProperties.emissionShape.spread(particles));}
-

@@ -1010,7 +1010,18 @@ declare namespace Godot {
       },
 
       /**
-       * Adjusts the min and max scale range of the particles. Set to min: 0.1 and max: 1.0 by default.
+       * Adjusts the animation speed, slowing when below one, and speeding up when higher. Set to 1.0 by default.
+       * Note: gravity doesn't override, so at 0.5x, the gravity appears less than the set value,
+       * and at 2x particles appear to fall faster than gravity. 
+      */
+      speedScale: {
+        set: (id: number, speed: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Adjusts the min and max particle size, a random scale is selected between the range.
+       * Set to min: 0.1 and max: 1.0 by default.
        */
       scale: {
         min: {
@@ -1038,6 +1049,25 @@ declare namespace Godot {
       },
 
       /**
+       * Adjusts the particles spin when emitted.
+       * Default set to `false` and `(0, 0, 0)` for both min and max.
+       */
+      rotationVelocity: {
+        isEnabled: {
+          set: (id: number, isEnabled: boolean) => boolean,
+          get: (id: number) => number | undefined,
+        }
+        min: {
+          set: (id: number, x: number, y: number, z: number) => boolean,
+          get: (id: number) => { x: number, y: number, z: number } | undefined,
+        },
+        max: {
+          set: (id: number, x: number, y: number, z: number) => boolean,
+          get: (id: number) => { x: number, y: number, z: number } | undefined,
+        },
+      },
+
+      /**
        * Adjusts the gravity applied to each particle, is set to 0.0 by default.
        * Earth gravity is about `0, -9.81, 0`.
        */
@@ -1062,6 +1092,62 @@ declare namespace Godot {
       spread: {
         set: (id: number, angle: number) => boolean,
         get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Adjusts a vortex like force, causing particles to move in a spiral. Defaults set to `0` for both min and max.
+       */
+      tangentialAcceleration: {
+        min: {
+          set: (id: number, min: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
+        max: {
+          set: (id: number, max: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
+      },
+
+      turbulence: {
+        /**
+         * Adjusts whether or not to enable the turbulence system, in practice it looks like wind.
+         * Set to `False` by default.
+         * Note: Enabling this has a high performance cost for the GPU. Use sparingly on only a few particle systems at once.
+         */
+        isEnabled: {
+          set: (id: number, isEnabled: boolean) => boolean,
+          get: (id: number) => boolean | undefined,
+        },
+        /**
+         * The turbulence noise strength. Higher values result in a stronger flow pattern. Set to `1` by default.
+         */
+        noiseStrength: {
+          set: (id: number, strength: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
+        /**
+         * The overall frequency/scale of the turbulence noise pattern. Higher values result in smoother noise with larger features.
+         * Set to `9` by default.
+         */
+        noiseScale: {
+          set: (id: number, scale: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
+        /**
+         * The directional trend for the pattern to move in over time. Set to `(0, 0, 0)` by default.
+         */
+        noiseSpeed: {
+          set: (id: number, x: number, y: number, z: number) => boolean,
+          get: (id: number) => { x: number, y: number, z: number } | undefined,
+        },
+        /**
+         * The randomness of the noise pattern over time. A value of `0` will result in a fixed pattern.
+         * Set to `0.2` by default.
+         */
+        noiseSpeedRandom: {
+          set: (id: number, randomness: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
       },
 
       /**

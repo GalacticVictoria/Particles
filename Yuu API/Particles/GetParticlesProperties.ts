@@ -1,5 +1,5 @@
 import { Vector3 } from "../Basic Types/Vector3";
-import { Entity } from "../Entity";
+import { Entity } from "../Entity/Entity";
 
 
 export const GetParticlesProperties = {
@@ -14,11 +14,13 @@ export const GetParticlesProperties = {
       innerRadius: ringInnerRadius,
       coneAngle: ringConeAngle,
     },
+    },
     isOneShot,
     explosiveness,
     randomness,
     amount,
     lifetimeInSeconds,
+    speedScale,
     scale: {
       min: minScale,
       max: maxScale,
@@ -27,11 +29,24 @@ export const GetParticlesProperties = {
       min: minInitialVelocity,
       max: maxInitialVelocity,
     },
+    rotationVelocity: {
+      min: minRotationVelocity,
+      max: maxRotationVelocity,
+    },
     gravity,
     direction,
     spread,
+    tangentialAccel: {
+      min: minTangentialAccel,
+      max: maxTangentialAccel,
+    },
+    turbulence: {
+      noiseStrength: turbulenceNoiseStrength,
+      noiseScale: turbulenceNoiseScale,
+      noiseSpeed: turbulenceNoiseSpeed,
+      noiseSpeedRandom: turbulenceNoiseSpeedRandom,
+    },
     transformAlign,
-  },
 }
 
 
@@ -154,6 +169,15 @@ function lifetimeInSeconds(particlesEntity: Entity): number | undefined {
   }
 }
 
+function speedScale(particlesEntity: Entity): number | undefined {
+  if (particlesEntity.particles.nodeID) {
+    return Godot.node.particles.speedScale.get(particlesEntity.particles.nodeID);
+  }
+  else {
+    return undefined;
+  }
+}
+
 function minScale(particlesEntity: Entity): number | undefined {
   if (particlesEntity.particles.nodeID) {
     return Godot.node.particles.scale.min.get(particlesEntity.particles.nodeID);
@@ -190,6 +214,26 @@ function maxInitialVelocity(particlesEntity: Entity): number | undefined {
   }
 }
 
+function minRotationVelocity(particlesEntity: Entity): Vector3 | undefined {
+  if (particlesEntity.particles.nodeID) {
+    const payload = Godot.node.particles.rotationVelocity.min.get(particlesEntity.particles.nodeID);
+    return payload ? new Vector3(payload.x, payload.y, payload.z) : undefined;
+  }
+  else {
+    return undefined;
+  }
+}
+
+function maxRotationVelocity(particlesEntity: Entity): Vector3 | undefined {
+  if (particlesEntity.particles.nodeID) {
+    const payload = Godot.node.particles.rotationVelocity.max.get(particlesEntity.particles.nodeID);
+    return payload ? new Vector3(payload.x, payload.y, payload.z) : undefined;
+  }
+  else {
+    return undefined;
+  }
+}
+
 function gravity(particlesEntity: Entity): Vector3 | undefined {
   if (particlesEntity.particles.nodeID) {
     const payload = Godot.node.particles.gravity.get(particlesEntity.particles.nodeID);
@@ -213,6 +257,61 @@ function direction(particlesEntity: Entity): Vector3 | undefined {
 function spread(particlesEntity: Entity): number | undefined {
   if (particlesEntity.particles.nodeID) {
     return Godot.node.particles.spread.get(particlesEntity.particles.nodeID);
+  }
+  else {
+    return undefined;
+  }
+}
+
+function minTangentialAccel(particlesEntity: Entity): number | undefined {
+  if (particlesEntity.particles.nodeID) {
+    return Godot.node.particles.tangentialAcceleration.min.get(particlesEntity.particles.nodeID);
+  }
+  else {
+    return undefined;
+  }
+}
+
+function maxTangentialAccel(particlesEntity: Entity): number | undefined {
+  if (particlesEntity.particles.nodeID) {
+    return Godot.node.particles.tangentialAcceleration.max.get(particlesEntity.particles.nodeID);
+  }
+  else {
+    return undefined;
+  }
+}
+
+function turbulenceNoiseStrength(particlesEntity: Entity): number | undefined {
+  if (particlesEntity.particles.nodeID) {
+    return Godot.node.particles.turbulence.noiseStrength.get(particlesEntity.particles.nodeID);
+  }
+  else {
+    return undefined;
+  }
+}
+
+function turbulenceNoiseScale(particlesEntity: Entity): number | undefined {
+  if (particlesEntity.particles.nodeID) {
+    return Godot.node.particles.turbulence.noiseScale.get(particlesEntity.particles.nodeID);
+  }
+  else {
+    return undefined;
+  }
+}
+
+function turbulenceNoiseSpeed(particlesEntity: Entity): Vector3 | undefined {
+  if (particlesEntity.particles.nodeID) {
+    const payload = Godot.node.particles.turbulence.noiseSpeed.get(particlesEntity.particles.nodeID);
+    return payload ? new Vector3(payload.x, payload.y, payload.z) : undefined;
+  }
+  else {
+    return undefined;
+  }
+}
+
+function turbulenceNoiseSpeedRandom(particlesEntity: Entity): number | undefined {
+  if (particlesEntity.particles.nodeID) {
+    return Godot.node.particles.turbulence.noiseSpeedRandom.get(particlesEntity.particles.nodeID);
   }
   else {
     return undefined;

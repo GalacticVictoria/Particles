@@ -1,9 +1,10 @@
-import { Vector3 } from "./Basic Types/Vector3";
+import { Vector3 } from "../Basic Types/Vector3";
+import { Events } from "../Events";
+import { Player } from "../Player";
+import { registerStart } from "../RegisterStart";
 import { Entity } from "./Entity";
 import { entity_Data } from "./Entity_Data";
-import { Events } from "./Events";
-import { Player } from "./Player";
-import { registerStart } from "./RegisterStart";
+
 
 
 registerStart(start);

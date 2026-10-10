@@ -1,14 +1,15 @@
-import { Quaternion } from "./Basic Types/Quaternion";
-import { Vector3 } from "./Basic Types/Vector3";
-import { Controller } from "./Controller";
+import { Quaternion } from "../Basic Types/Quaternion";
+import { Vector3 } from "../Basic Types/Vector3";
+import { Controller } from "../Controller";
+import { Events } from "../Events";
+import { Paint } from "../Paint";
+import { Player } from "../Player";
+import { Raycast } from "../Raycast";
+import { registerStart } from "../RegisterStart";
 import { Entity } from "./Entity";
 import { entity_Data } from "./Entity_Data";
 import { entityRayClick_Data, RayPropertiesPerHand } from "./EntityRayClick_Data";
-import { Events } from "./Events";
-import { Paint } from "./Paint";
-import { Player } from "./Player";
-import { Raycast } from "./Raycast";
-import { registerStart } from "./RegisterStart";
+
 
 
 // Need to bring back color on these when pointed at a paintable entity

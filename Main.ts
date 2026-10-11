@@ -11,32 +11,31 @@ import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
 registerStart(start);
 function start() {
 
-    console.log('Hello World!');
-    
+
     const particles = new Entity(Vector3.up, Quaternion.one, Vector3.one, undefined, 'Empty');
     particles.particles.initialize();
 
-    const ParticleMesh = spawnPrimitive.cube(
-        new Vector3(0, 1, 0),
-        new Vector3(1, 1, 1),
-        Quaternion.one,
-        Color.white,
-        1,
-        false,
-        'Empty',
-        undefined
+    // const ParticleMesh = spawnPrimitive.cube(
+    //     new Vector3(0, 1, 0),
+    //     new Vector3(1, 1, 1),
+    //     Quaternion.one,
+    //     Color.white,
+    //     1,
+    //     false,
+    //     'Empty',
+    //     undefined
 
-    );
-
-
-
-    particles.particles.setParticlesProperties({ meshID: ParticleMesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 100, spread: 90, isOneShot: false, lifetimeInSeconds: 8, isEmitting: true });
+    // );
 
 
-    particles.particles.play();
+
+    // particles.particles.setParticlesProperties({ meshID: ParticleMesh.nodeID });
+    // particles.particles.setParticlesProperties({ amount: 100, spread: 90, isOneShot: false, lifetimeInSeconds: 8, isEmitting: true });
 
 
-    console.log('amount:' + GetParticlesProperties.amount(particles));
-    console.log('spread:' + GetParticlesProperties.spread(particles));
+    // particles.particles.play();
+
+
+    // console.log('amount:' + GetParticlesProperties.amount(particles));
+    // console.log('spread:' + GetParticlesProperties.spread(particles));
 }

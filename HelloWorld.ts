@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 120, spread: 180, lifetimeInSeconds: 3, isOneShot: true });
+    particles.particles.setParticlesProperties({ amount: 120, spread: 180, lifetimeInSeconds: 3, isEmitting: false });
 
 
     particles.particles.play();
@@ -40,5 +40,5 @@ function start() {
     console.log('amount:' + GetParticlesProperties.amount(particles));
     console.log('spread:' + GetParticlesProperties.spread(particles));
     console.log('lifetime:' + GetParticlesProperties.lifetimeInSeconds(particles));
-    console.log('OneShot:' + GetParticlesProperties.isOneShot(particles));
+    console.log('Emitting:' + GetParticlesProperties.isEmitting(particles));
 }

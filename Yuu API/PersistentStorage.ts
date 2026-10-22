@@ -8,7 +8,7 @@ export const PersistentStorage = {
 
 
 /**
- * Get a stored file
+ * Get a stored file on the vm
  * @param folderPath if in the top level use an empty string, a sub folder can be specified, ie. 'subFolderName'
  * @param fileName to get
  * @param extension of the file
@@ -19,7 +19,7 @@ function get(folderPath: string, fileName: string, extension: string): string | 
 }
 
 /**
- * Updates a stored file, creates the file if it doesn't already exist
+ * Updates a file stored on the vm, creates the file if it doesn't already exist
  * @param folderPath if in the top level use an empty string, a sub folder can be specified, ie. 'subFolderName'
  * @param fileName to save
  * @param extension of the file

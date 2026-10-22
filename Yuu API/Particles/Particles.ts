@@ -3,9 +3,9 @@ import { Vector3 } from "../Basic Types/Vector3";
 
 // Edit this type definition to have explanations like the d.ts
 export type ParticlesProperties = {
-  meshID: number,
+  meshNodeID: number,
   emissionShape: ParticlesEmissionShape,
-  emissionShapeProperties: {
+  emissionShapeProperties: Partial<{
     sphereRadius: number | undefined,
     boxExtents: Vector3 | undefined,
     ring: {
@@ -15,7 +15,7 @@ export type ParticlesProperties = {
       innerRadius: number | undefined,
       coneAngle: number | undefined,
     },
-  },
+  }>,
 
   isEmitting: boolean,
   isOneShot: boolean,

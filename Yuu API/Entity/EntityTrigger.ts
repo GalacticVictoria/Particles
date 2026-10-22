@@ -3,7 +3,7 @@ import { Events } from "../Events";
 import { Player } from "../Player";
 import { registerStart } from "../RegisterStart";
 import { Entity } from "./Entity";
-import { entity_Data } from "./Entity_Data";
+import { entityData } from "./Entity_Data";
 
 
 
@@ -15,7 +15,7 @@ function start() {
 function onUpdate(deltaTime: number) {
   const entityPositionsMap = new Map<string, Vector3[]>();
 
-  entity_Data.triggerDetectableEntities.forEach((id) => {
+  entityData.triggerDetectableEntities.forEach((id) => {
     const entity = Entity.getEntityByID(id);
 
     if (entity) {
@@ -40,7 +40,7 @@ function onUpdate(deltaTime: number) {
   const rightHandPos = Player.rightHand.position.get() ?? Vector3.zero;
   const footPos = Player.foot.position.get() ?? Vector3.zero;
 
-  entity_Data.triggerMap.forEach((payload, entityNodeID) => {
+  entityData.triggerMap.forEach((payload, entityNodeID) => {
     // Current Sphere / Cylinder triggers only work upright
     // Need Cube triggers with directions badly
 

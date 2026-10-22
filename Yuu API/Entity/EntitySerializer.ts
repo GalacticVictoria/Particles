@@ -4,6 +4,12 @@ import { Files } from "../Files";
 import { Entity } from "./Entity";
 
 
+// The best part of working on this is that it can also be used to send data across the network
+// ie. in multiplayer when an Entity enters the scene
+// So it is worth thinking about keeping the size of this data small where possible,
+// or creating a minified -> uncompressed function
+
+
 export type SerializedEntity = {
   version: number
   fileName: string,

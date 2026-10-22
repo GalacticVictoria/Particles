@@ -1,7 +1,7 @@
 import { Color } from "../Basic Types/Color"
 import { Quaternion } from "../Basic Types/Quaternion";
 import { Vector3 } from "../Basic Types/Vector3";
-import { entity_Data } from "../Entity/Entity_Data";
+import { entityData } from "../Entity/Entity_Data";
 import { registerStart } from "../RegisterStart";
 import { DefaultShaders } from "../Shader/DefaultShaders"
 import { spawnPrimitive } from "../SpawnPrimitive";
@@ -25,34 +25,21 @@ basicSphere.visible.set(false);
 
 registerStart(start);
 function start() {
-  entity_Data.defaultParticlesProperties.meshID = basicSphere.nodeID ?? -1;
+  entityData.defaultParticlesProperties.meshNodeID = basicSphere.mesh.nodeID ?? -1;
 }
 
 
 const coloredWaterFountainSphere = spawnPrimitive.sphere(12, 6, new Vector3(0, -100, 0), 1, Quaternion.one, Color.white, 1, 'None', 'Empty', undefined);
 coloredWaterFountainSphere.visible.set(false);
 
-function getColoredWaterFountainParticlesProperties(color: Color): ParticlesProperties {
+function getColoredWaterFountainParticlesProperties(color: Color): Partial<ParticlesProperties> {
   coloredWaterFountainSphere.mesh.color.set(color, 1);
 
   return {
-    meshID: coloredWaterFountainSphere.nodeID ?? -1,
-    emissionShape: 'Point',
-    emissionShapeProperties: {
-      sphereRadius: undefined,
-      boxExtents: undefined,
-      ring: {
-        axis: undefined,
-        height: undefined,
-        radius: undefined,
-        innerRadius: undefined,
-        coneAngle: undefined,
-      },
-    },
+    meshNodeID: coloredWaterFountainSphere.mesh.nodeID ?? -1,
 
     isEmitting: true,
     isOneShot: false,
-    explosiveness: 0,
     randomness: 0.5,
 
     amount: 48,
@@ -63,21 +50,8 @@ function getColoredWaterFountainParticlesProperties(color: Color): ParticlesProp
 
     initialVelocityMin: 0.5,
     initialVelocityMax: 1.75,
-    rotationVelocityMin: undefined,
-    rotationVelocityMax: undefined,
     gravity: Vector3.moonGravity,
-    direction: Vector3.up,
     spread: 2,
-    tangentialAccelMin: 0,
-    tangentialAccelMax: 0,
-    turbulence: {
-      noiseStrength: undefined,
-      noiseScale: undefined,
-      noiseSpeed: undefined,
-      noiseSpeedRandom: undefined,
-    },
-
-    transformAlign: 'Disabled',
   }
 }
 
@@ -85,28 +59,13 @@ function getColoredWaterFountainParticlesProperties(color: Color): ParticlesProp
 const rainbowCube = spawnPrimitive.cube(new Vector3(0, -100, 0), Vector3.one, Quaternion.one, Color.white, 1, false, 'Empty', undefined);
 rainbowCube.visible.set(false);
 
-function getRainbowCubeParticlesProperties(durationSeconds: number, saturation: number, value: number): ParticlesProperties {
+function getRainbowCubeParticlesProperties(durationSeconds: number, saturation: number, value: number): Partial<ParticlesProperties> {
   rainbowCube.mesh.shader.set(DefaultShaders.getRainbowShader(durationSeconds, saturation, value, 0.5, 0.5));
   // Instead of creating a new shader, it could update the shader properties.
 
   return {
-    meshID: rainbowCube.nodeID ?? -1,
-    emissionShape: 'Point',
-    emissionShapeProperties: {
-      sphereRadius: undefined,
-      boxExtents: undefined,
-      ring: {
-        axis: undefined,
-        height: undefined,
-        radius: undefined,
-        innerRadius: undefined,
-        coneAngle: undefined,
-      },
-    },
+    meshNodeID: rainbowCube.mesh.nodeID ?? -1,
 
-    isEmitting: true,
-    isOneShot: false,
-    explosiveness: 0,
     randomness: 0.5,
 
     amount: 24,
@@ -117,21 +76,8 @@ function getRainbowCubeParticlesProperties(durationSeconds: number, saturation: 
 
     initialVelocityMin: 0,
     initialVelocityMax: 0.1,
-    rotationVelocityMin: undefined,
-    rotationVelocityMax: undefined,
     gravity: new Vector3(0, -0.02, 0),
-    direction: Vector3.up,
     spread: 90,
-    tangentialAccelMin: 0,
-    tangentialAccelMax: 0,
-    turbulence: {
-      noiseStrength: undefined,
-      noiseScale: undefined,
-      noiseSpeed: undefined,
-      noiseSpeedRandom: undefined,
-    },
-
-    transformAlign: 'Disabled',
   }
 }
 
@@ -140,25 +86,14 @@ const heartSphere = spawnPrimitive.sphere(12, 6, new Vector3(0, -100, 0), 1, Qua
 heartSphere.mesh.shader.set(DefaultShaders.getHeartShader());
 heartSphere.visible.set(false);
 
-function getHeartParticlesProperties(): ParticlesProperties {
+function getHeartParticlesProperties(): Partial<ParticlesProperties> {
   return {
-    meshID: heartSphere.nodeID ?? -1,
+    meshNodeID: heartSphere.mesh.nodeID ?? -1,
     emissionShape: 'Sphere',
     emissionShapeProperties: {
       sphereRadius: 0.5,
-      boxExtents: undefined,
-      ring: {
-        axis: undefined,
-        height: undefined,
-        radius: undefined,
-        innerRadius: undefined,
-        coneAngle: undefined,
-      },
     },
 
-    isEmitting: true,
-    isOneShot: false,
-    explosiveness: 0,
     randomness: 0.5,
 
     amount: 6,
@@ -169,19 +104,8 @@ function getHeartParticlesProperties(): ParticlesProperties {
 
     initialVelocityMin: 0.25,
     initialVelocityMax: .75,
-    rotationVelocityMin: undefined,
-    rotationVelocityMax: undefined,
     gravity: Vector3.moonGravity,
-    direction: Vector3.up,
     spread: 4,
-    tangentialAccelMin: 0,
-    tangentialAccelMax: 0,
-    turbulence: {
-      noiseStrength: undefined,
-      noiseScale: undefined,
-      noiseSpeed: undefined,
-      noiseSpeedRandom: undefined,
-    },
 
     transformAlign: 'Billboard',
   }
@@ -191,27 +115,13 @@ function getHeartParticlesProperties(): ParticlesProperties {
 const smokeSphere = spawnPrimitive.sphere(12, 6, new Vector3(0, -100, 0), 1, Quaternion.one, Color.white, 1, 'None', 'Empty', undefined);
 smokeSphere.visible.set(false);
 
-function getSmokeParticlesProperties(color: Color | undefined): ParticlesProperties {
+function getSmokeParticlesProperties(color: Color | undefined): Partial<ParticlesProperties> {
   smokeSphere.mesh.color.set(color ?? new Color(0.4, 0.4, 0.35), 0.5);
 
   return {
-    meshID: smokeSphere.nodeID ?? -1,
+    meshNodeID: smokeSphere.mesh.nodeID ?? -1,
     emissionShape: 'Sphere',
-    emissionShapeProperties: {
-      sphereRadius: undefined,
-      boxExtents: undefined,
-      ring: {
-        axis: undefined,
-        height: undefined,
-        radius: undefined,
-        innerRadius: undefined,
-        coneAngle: undefined,
-      },
-    },
 
-    isEmitting: true,
-    isOneShot: false,
-    explosiveness: 0.0,
     randomness: 0.6,
 
     amount: 25,
@@ -222,19 +132,8 @@ function getSmokeParticlesProperties(color: Color | undefined): ParticlesPropert
 
     initialVelocityMin: 0.25,
     initialVelocityMax: 1,
-    rotationVelocityMin: undefined,
-    rotationVelocityMax: undefined,
     gravity: new Vector3(0, 0.15, 0),
-    direction: Vector3.up,
     spread: 25,
-    tangentialAccelMin: 0,
-    tangentialAccelMax: 0,
-    turbulence: {
-      noiseStrength: undefined,
-      noiseScale: undefined,
-      noiseSpeed: undefined,
-      noiseSpeedRandom: undefined,
-    },
 
     transformAlign: 'Billboard',
   }
@@ -244,25 +143,12 @@ function getSmokeParticlesProperties(color: Color | undefined): ParticlesPropert
 const explosionParticlesSphere = spawnPrimitive.sphere(12, 6, new Vector3(0, -100, 0), 1, Quaternion.one, Color.white, 1, 'None', 'Empty', undefined);
 explosionParticlesSphere.visible.set(false);
 
-function getExplosionParticlesProperties(color: Color): ParticlesProperties {
+function getExplosionParticlesProperties(color: Color): Partial<ParticlesProperties> {
   explosionParticlesSphere.mesh.shader.set(DefaultShaders.getColorShader(color, 0.7, 0.8));
 
   return {
-    meshID: explosionParticlesSphere.nodeID ?? -1,
-    emissionShape: 'Point',
-    emissionShapeProperties: {
-      sphereRadius: undefined,
-      boxExtents: undefined,
-      ring: {
-        axis: undefined,
-        height: undefined,
-        radius: undefined,
-        innerRadius: undefined,
-        coneAngle: undefined,
-      },
-    },
+    meshNodeID: explosionParticlesSphere.mesh.nodeID ?? -1,
 
-    isEmitting: true,
     isOneShot: true,
     explosiveness: 1.0,
     randomness: 0.4,
@@ -275,21 +161,8 @@ function getExplosionParticlesProperties(color: Color): ParticlesProperties {
 
     initialVelocityMin: 0.25,
     initialVelocityMax: 1,
-    rotationVelocityMin: undefined,
-    rotationVelocityMax: undefined,
-    gravity: new Vector3(0, -9.81, 0),
-    direction: Vector3.up,
+    gravity: Vector3.earthGravity,
     spread: 45,
-    tangentialAccelMin: 0,
-    tangentialAccelMax: 0,
-    turbulence: {
-      noiseStrength: undefined,
-      noiseScale: undefined,
-      noiseSpeed: undefined,
-      noiseSpeedRandom: undefined,
-    },
-
-    transformAlign: 'Disabled',
   }
 }
 
@@ -297,27 +170,13 @@ function getExplosionParticlesProperties(color: Color): ParticlesProperties {
 const magicFloatingSphere = spawnPrimitive.sphere(12, 6, new Vector3(0, -100, 0), 1, Quaternion.one, Color.white, 1, 'None', 'Empty', undefined);
 magicFloatingSphere.visible.set(false);
 
-function getMagicFloatingParticlesProperties(durationSeconds: number, saturation: number, value: number): ParticlesProperties {
+function getMagicFloatingParticlesProperties(durationSeconds: number, saturation: number, value: number): Partial<ParticlesProperties> {
   magicFloatingSphere.mesh.shader.set(DefaultShaders.getRainbowShader(durationSeconds, saturation, value, 0.5, 0.5));
 
   return {
-    meshID: magicFloatingSphere.nodeID ?? -1,
+    meshNodeID: magicFloatingSphere.mesh.nodeID ?? -1,
     emissionShape: 'Ring',
-    emissionShapeProperties: {
-      sphereRadius: undefined,
-      boxExtents: undefined,
-      ring: {
-        axis: undefined,
-        height: undefined,
-        radius: undefined,
-        innerRadius: undefined,
-        coneAngle: undefined,
-      },
-    },
 
-    isEmitting: true,
-    isOneShot: false,
-    explosiveness: 0.0,
     randomness: 0.5,
 
     amount: 30,
@@ -328,21 +187,8 @@ function getMagicFloatingParticlesProperties(durationSeconds: number, saturation
 
     initialVelocityMin: 0.25,
     initialVelocityMax: 2,
-    rotationVelocityMin: undefined,
-    rotationVelocityMax: undefined,
     gravity: new Vector3(0, 0.1, 0),
-    direction: Vector3.up,
     spread: 15,
-    tangentialAccelMin: 0,
-    tangentialAccelMax: 0,
-    turbulence: {
-      noiseStrength: undefined,
-      noiseScale: undefined,
-      noiseSpeed: undefined,
-      noiseSpeedRandom: undefined,
-    },
-
-    transformAlign: 'Disabled',
   }
 }
 
@@ -350,27 +196,16 @@ function getMagicFloatingParticlesProperties(durationSeconds: number, saturation
 const rainParticlesSphere = spawnPrimitive.sphere(12, 6, new Vector3(0, -100, 0), 1, Quaternion.one, Color.white, 1, 'None', 'Empty', undefined);
 rainParticlesSphere.visible.set(false);
 
-function getRainParticlesProperties(color: Color | undefined): ParticlesProperties {
+function getRainParticlesProperties(color: Color | undefined): Partial<ParticlesProperties> {
   rainParticlesSphere.mesh.color.set(color ?? new Color(0.427, 0.706, 0.969), 0.8);
 
   return {
-    meshID: rainParticlesSphere.nodeID ?? -1,
+    meshNodeID: rainParticlesSphere.mesh.nodeID ?? -1,
     emissionShape: 'Box',
     emissionShapeProperties: {
-      sphereRadius: 0.1,
       boxExtents: new Vector3(3, 0.25, 3),
-      ring: {
-        axis: undefined,
-        height: undefined,
-        radius: undefined,
-        innerRadius: undefined,
-        coneAngle: undefined,
-      },
     },
 
-    isEmitting: true,
-    isOneShot: false,
-    explosiveness: 0.0,
     randomness: 0.45,
 
     amount: 150,
@@ -381,22 +216,11 @@ function getRainParticlesProperties(color: Color | undefined): ParticlesProperti
 
     initialVelocityMin: 0.25,
     initialVelocityMax: 2,
-    rotationVelocityMin: undefined,
-    rotationVelocityMax: undefined,
     gravity: new Vector3(0, -25.0, 0),
     direction: Vector3.down,
     spread: 2,
-    tangentialAccelMin: 0,
-    tangentialAccelMax: 0,
-    turbulence: {
-      noiseStrength: undefined,
-      noiseScale: undefined,
-      noiseSpeed: undefined,
-      noiseSpeedRandom: undefined,
-    },
 
     transformAlign: 'AlignToVelocity',
-    // mesh sphere's radius: 0.1, height: 1
   }
 }
 
@@ -404,26 +228,12 @@ function getRainParticlesProperties(color: Color | undefined): ParticlesProperti
 const rainSplashParticlesSphere = spawnPrimitive.sphere(12, 6, new Vector3(0, -100, 0), 1, Quaternion.one, Color.white, 1, 'None', 'Empty', undefined);
 rainSplashParticlesSphere.visible.set(false);
 
-function getRainSplashParticlesProperties(color: Color | undefined): ParticlesProperties {
+function getRainSplashParticlesProperties(color: Color | undefined): Partial<ParticlesProperties> {
   rainSplashParticlesSphere.mesh.color.set(color ?? new Color(0.427, 0.706, 0.969), 0.8);
-  
-  return {
-    meshID: rainSplashParticlesSphere.nodeID ?? -1,
-    emissionShape: 'Point',
-    emissionShapeProperties: {
-      sphereRadius: undefined,
-      boxExtents: new Vector3(3, 0.25, 3),
-      ring: {
-        axis: undefined,
-        height: undefined,
-        radius: undefined,
-        innerRadius: undefined,
-        coneAngle: undefined,
-      },
-    },
 
-    isEmitting: true,
-    isOneShot: false,
+  return {
+    meshNodeID: rainSplashParticlesSphere.mesh.nodeID ?? -1,
+
     explosiveness: 0.8,
     randomness: 1,
 
@@ -435,20 +245,7 @@ function getRainSplashParticlesProperties(color: Color | undefined): ParticlesPr
 
     initialVelocityMin: 0.25,
     initialVelocityMax: 6,
-    rotationVelocityMin: undefined,
-    rotationVelocityMax: undefined,
-    gravity: new Vector3(0, -9.81, 0),
-    direction: Vector3.up,
+    gravity: Vector3.earthGravity,
     spread: 45,
-    tangentialAccelMin: 0,
-    tangentialAccelMax: 0,
-    turbulence: {
-      noiseStrength: undefined,
-      noiseScale: undefined,
-      noiseSpeed: undefined,
-      noiseSpeedRandom: undefined,
-    },
-
-    transformAlign: 'Disabled',
   }
 }

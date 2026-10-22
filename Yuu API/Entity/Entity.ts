@@ -7,7 +7,8 @@ import { ParticlesProperties } from "../Particles/Particles";
 import { RayHit } from "../Raycast";
 import { spawnPrimitive } from "../SpawnPrimitive";
 import { Texture } from "../Texture";
-import { entity_Data, OccupiedTriggerPayload, OnUpdatePayload, WhatCanTrigger } from "./Entity_Data";
+import { Crypto } from "../Crypto";
+import { entityData, OccupiedTriggerPayload, OnUpdatePayload, WhatCanTrigger } from "./Entity_Data";
 
 
 /**
@@ -16,6 +17,7 @@ import { entity_Data, OccupiedTriggerPayload, OnUpdatePayload, WhatCanTrigger } 
 export class Entity {
   public nodeID: number | undefined;
   public uniqueID: string;
+  public createdAtMs: number;
   public type: BaseNodeTypes | undefined;
   private childNodeIDs: number[] = [];
 
@@ -162,8 +164,8 @@ export class Entity {
    */
   constructor(pos: Vector3, rot: Quaternion, scale: Vector3, parent: Entity | undefined, type: BaseNodeTypes) {
     this.nodeID = Godot.node.create.base(parent?.nodeID, type);
-    // this.uniqueID = crypto.randomUUID();
-    this.uniqueID = 'Hello Loser';
+    this.createdAtMs = Date.now();
+    this.uniqueID = generateUniqueID();
 
     if (this.nodeID) {
       Entity.entityMap.set(this.nodeID, this);
@@ -239,10 +241,10 @@ export class Entity {
       this.audio.nodeID = undefined;
       this.triggerMeshEntity = undefined;
       this.texture = undefined;
-      entity_Data.triggerMap.delete(this.nodeID ?? -1);
-      entity_Data.rayClickMap.delete(this.nodeID ?? -1);
-      arrayUtils.removeItemFromArray(entity_Data.paintableEntities, this.nodeID);
-      arrayUtils.removeItemFromArray(entity_Data.uvEntities, this.nodeID);
+      entityData.triggerMap.delete(this.nodeID ?? -1);
+      entityData.rayClickMap.delete(this.nodeID ?? -1);
+      arrayUtils.removeItemFromArray(entityData.paintableEntities, this.nodeID);
+      arrayUtils.removeItemFromArray(entityData.uvEntities, this.nodeID);
     }
   }
 
@@ -441,19 +443,19 @@ export class Entity {
         set: (isPaintable: boolean) => {
           if (this.nodeID) {
             if (isPaintable) {
-              if (!entity_Data.paintableEntities.includes(this.nodeID ?? -1)) {
-                entity_Data.paintableEntities.push(this.nodeID ?? -1);
+              if (!entityData.paintableEntities.includes(this.nodeID ?? -1)) {
+                entityData.paintableEntities.push(this.nodeID ?? -1);
 
                 this.rayClick.initialize(true);
               }
             }
             else {
-              arrayUtils.removeItemFromArray(entity_Data.paintableEntities, this.nodeID ?? -1);
+              arrayUtils.removeItemFromArray(entityData.paintableEntities, this.nodeID ?? -1);
             }
           }
         },
         get: (): boolean => {
-          return entity_Data.paintableEntities.includes(this.nodeID ?? -1);
+          return entityData.paintableEntities.includes(this.nodeID ?? -1);
         },
       },
     },
@@ -1085,11 +1087,16 @@ export class Entity {
     nodeID: undefined as number | undefined,
 
     /**
-     * Initializes the particles with default values if not already initialized
+     * Initializes the particles with default values, any provided properties overwrite/spread-over the defaults
      */
-    initialize: (properties: Partial<ParticlesProperties> = entity_Data.defaultParticlesProperties) => {
+    initialize: (properties: Partial<ParticlesProperties> = {}) => {
       if (this.nodeID) {
         if (this.particles.nodeID === undefined) {
+          const mergedProperties: Partial<ParticlesProperties> = {
+            ...entityData.defaultParticlesProperties,
+            ...properties,
+          }
+
           this.particles.nodeID = Godot.node.create.particles(this.nodeID);
 
           if (this.particles.nodeID) {
@@ -1097,7 +1104,7 @@ export class Entity {
 
             this.childNodeIDs.push(this.particles.nodeID);
 
-            this.particles.setParticlesProperties(properties);
+            this.particles.setParticlesProperties(mergedProperties);
           }
         }
       }
@@ -1110,12 +1117,8 @@ export class Entity {
     setParticlesProperties: (properties: Partial<ParticlesProperties>) => {
       if (this.nodeID) {
         if (this.particles.nodeID) {
-          if (properties.meshID) {
-            const mesh = Entity.getEntityByID(properties.meshID);
-
-            if (mesh?.mesh.nodeID) {
-              Godot.node.particles.mesh.set(this.particles.nodeID, mesh.mesh.nodeID);
-            }
+          if (properties.meshNodeID) {
+            Godot.node.particles.mesh.set(this.particles.nodeID, properties.meshNodeID);
           }
 
           if (properties.emissionShape) {
@@ -1313,12 +1316,12 @@ export class Entity {
       set: (isTracked: boolean) => {
         if (this.nodeID) {
           if (isTracked) {
-            if (!entity_Data.triggerDetectableEntities.includes(this.nodeID)) {
-              entity_Data.triggerDetectableEntities.push(this.nodeID);
+            if (!entityData.triggerDetectableEntities.includes(this.nodeID)) {
+              entityData.triggerDetectableEntities.push(this.nodeID);
             }
           }
           else {
-            arrayUtils.removeItemFromArray(entity_Data.triggerDetectableEntities, this.nodeID);
+            arrayUtils.removeItemFromArray(entityData.triggerDetectableEntities, this.nodeID);
           }
         }
       },
@@ -1329,7 +1332,7 @@ export class Entity {
        */
       get: (): boolean => {
         if (this.nodeID) {
-          return entity_Data.triggerDetectableEntities.includes(this.nodeID);
+          return entityData.triggerDetectableEntities.includes(this.nodeID);
         }
         else {
           return false;
@@ -1346,20 +1349,20 @@ export class Entity {
      */
     initialize: (triggerRadius: number, yRadius: number | undefined, whatCanTrigger: WhatCanTrigger[], entityTags: string[] | undefined) => {
       if (this.nodeID) {
-        entity_Data.triggerMap.set(this.nodeID ?? -1, { triggerRadius: triggerRadius, yRadius: yRadius, whatCanTrigger: whatCanTrigger, entityTags: entityTags ?? [], activeCount: 0, onUpdateTriggeredFunction: undefined, occupiedTriggeredFunction: undefined, emptyTriggeredFunction: undefined });
+        entityData.triggerMap.set(this.nodeID ?? -1, { triggerRadius: triggerRadius, yRadius: yRadius, whatCanTrigger: whatCanTrigger, entityTags: entityTags ?? [], activeCount: 0, onUpdateTriggeredFunction: undefined, occupiedTriggeredFunction: undefined, emptyTriggeredFunction: undefined });
       }
     },
 
     delete: () => {
       if (this.nodeID) {
-        entity_Data.triggerMap.delete(this.nodeID ?? -1);
+        entityData.triggerMap.delete(this.nodeID ?? -1);
         this.trigger.setVisible(false, undefined);
       }
     },
 
     setOnUpdateFunction: (func: (payload: OnUpdatePayload) => void) => {
       if (this.nodeID) {
-        const data = entity_Data.triggerMap.get(this.nodeID ?? -1);
+        const data = entityData.triggerMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.onUpdateTriggeredFunction = func;
@@ -1369,7 +1372,7 @@ export class Entity {
 
     clearOnUpdateFunction: () => {
       if (this.nodeID) {
-        const data = entity_Data.triggerMap.get(this.nodeID ?? -1);
+        const data = entityData.triggerMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.onUpdateTriggeredFunction = undefined;
@@ -1379,7 +1382,7 @@ export class Entity {
 
     setOccupiedFunction: (func: (payload: OccupiedTriggerPayload) => void) => {
       if (this.nodeID) {
-        const data = entity_Data.triggerMap.get(this.nodeID ?? -1);
+        const data = entityData.triggerMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.occupiedTriggeredFunction = func;
@@ -1389,7 +1392,7 @@ export class Entity {
 
     clearOccupiedFunction: () => {
       if (this.nodeID) {
-        const data = entity_Data.triggerMap.get(this.nodeID ?? -1);
+        const data = entityData.triggerMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.occupiedTriggeredFunction = undefined;
@@ -1399,7 +1402,7 @@ export class Entity {
 
     setEmptyFunction: (func: () => void) => {
       if (this.nodeID) {
-        const data = entity_Data.triggerMap.get(this.nodeID ?? -1);
+        const data = entityData.triggerMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.emptyTriggeredFunction = func;
@@ -1409,7 +1412,7 @@ export class Entity {
 
     clearEmptyFunction: () => {
       if (this.nodeID) {
-        const data = entity_Data.triggerMap.get(this.nodeID ?? -1);
+        const data = entityData.triggerMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.emptyTriggeredFunction = undefined;
@@ -1428,7 +1431,7 @@ export class Entity {
             this.triggerMeshEntity.destroy();
           }
 
-          const data = entity_Data.triggerMap.get(this.nodeID ?? -1);
+          const data = entityData.triggerMap.get(this.nodeID ?? -1);
 
           if (data) {
             this.triggerMeshEntity = spawnPrimitive.sphere(16, 16, Vector3.zero, (data.triggerRadius * 2), Quaternion.one, color ?? Color.green, 0.25, 'None', 'Empty', this);
@@ -1445,13 +1448,13 @@ export class Entity {
      */
     initialize: (getUVs: boolean) => {
       if (this.nodeID) {
-        if (!entity_Data.rayClickMap.has(this.nodeID ?? -1)) {
-          entity_Data.rayClickMap.set(this.nodeID, { clickFunction: undefined, heldFunction: undefined, releaseFunction: undefined });
+        if (!entityData.rayClickMap.has(this.nodeID ?? -1)) {
+          entityData.rayClickMap.set(this.nodeID, { clickFunction: undefined, heldFunction: undefined, releaseFunction: undefined });
         }
 
         if (getUVs) {
-          if (!entity_Data.uvEntities.includes(this.nodeID ?? -1)) {
-            entity_Data.uvEntities.push(this.nodeID ?? -1);
+          if (!entityData.uvEntities.includes(this.nodeID ?? -1)) {
+            entityData.uvEntities.push(this.nodeID ?? -1);
           }
         }
       }
@@ -1462,14 +1465,14 @@ export class Entity {
      */
     remove: () => {
       if (this.nodeID) {
-        entity_Data.rayClickMap.delete(this.nodeID ?? -1);
-        arrayUtils.removeItemFromArray(entity_Data.uvEntities, this.nodeID ?? -1);
+        entityData.rayClickMap.delete(this.nodeID ?? -1);
+        arrayUtils.removeItemFromArray(entityData.uvEntities, this.nodeID ?? -1);
       }
     },
 
     setClickFunction: (func: (payload: RayHit) => void) => {
       if (this.nodeID) {
-        const data = entity_Data.rayClickMap.get(this.nodeID ?? -1);
+        const data = entityData.rayClickMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.clickFunction = func;
@@ -1479,7 +1482,7 @@ export class Entity {
 
     clearClickFunction: () => {
       if (this.nodeID) {
-        const data = entity_Data.rayClickMap.get(this.nodeID ?? -1);
+        const data = entityData.rayClickMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.clickFunction = undefined;
@@ -1489,7 +1492,7 @@ export class Entity {
 
     setHeldFunction: (func: (payload: RayHit) => void) => {
       if (this.nodeID) {
-        const data = entity_Data.rayClickMap.get(this.nodeID ?? -1);
+        const data = entityData.rayClickMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.heldFunction = func;
@@ -1499,7 +1502,7 @@ export class Entity {
 
     clearHeldFunction: () => {
       if (this.nodeID) {
-        const data = entity_Data.rayClickMap.get(this.nodeID ?? -1);
+        const data = entityData.rayClickMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.heldFunction = undefined;
@@ -1509,7 +1512,7 @@ export class Entity {
 
     setReleaseFunction: (func: () => void) => {
       if (this.nodeID) {
-        const data = entity_Data.rayClickMap.get(this.nodeID ?? -1);
+        const data = entityData.rayClickMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.releaseFunction = func;
@@ -1519,7 +1522,7 @@ export class Entity {
 
     clearReleaseFunction: () => {
       if (this.nodeID) {
-        const data = entity_Data.rayClickMap.get(this.nodeID ?? -1);
+        const data = entityData.rayClickMap.get(this.nodeID ?? -1);
 
         if (data) {
           data.releaseFunction = undefined;
@@ -1696,5 +1699,29 @@ function destroy(nodeID: number | undefined, childNodeIDArray: number[]) {
   }
 }
 
+
+const uniqueIDData = {
+  lastMs: 0,
+  counter: 0,
+}
+
+/**
+ * Generate a Unique Entity ID by combining the time, a counter, and a v4 UUID into a string
+ * @returns string representation of the ID
+ */
+function generateUniqueID(): string {
+  const curTimeMs = Date.now();
+  const v4UUID = Crypto.generateRandomV4UUID();
+
+  if (uniqueIDData.lastMs === curTimeMs) {
+    uniqueIDData.counter++;
+  }
+  else {
+    uniqueIDData.lastMs = curTimeMs;
+    uniqueIDData.counter = 0;
+  }
+
+  return curTimeMs.toString() + '-' + uniqueIDData.counter.toString() + '-' + v4UUID;
+}
 
 

@@ -73,6 +73,27 @@ declare namespace Godot {
     clearTimer: (id: number) => boolean;
   }
 
+  const crypto: {
+    /**
+     * Generate a cryptographically secure v4 UUID using the format 4-2-2-2-6: "00000000-0000-0000-0000-00000000000"
+     */
+    generateRandomV4UUID: () => string | undefined;
+
+    /**
+     * Generate an array of cryptographically secure bytes
+     * @param amount of bytes to generate
+     * @returns byte array as ArrayBuffer, can be used via `new Uint8Array(buffer)`
+     */
+    generateRandomBytes: (amount: number) => ArrayBuffer | undefined;
+
+    /**
+     * Get the SHA-256 hash of a string
+     * @param content to hash
+     * @returns string
+     */
+    getSHA256Hash: (content: string) => string;
+  }
+
   const events: {
     /**
    * Subscribe a function to the process / frame update
@@ -178,16 +199,6 @@ declare namespace Godot {
       getContents: (dirPath: string, isRecursive: boolean) => [string, string, string][];
 
       /**
-       * Transpile TS Files to JS, runs async, use areTSFilesTranspiled to check when it is completed
-       * @param tsPath folder to transpile
-       * @param jsPath folder to store js files into
-       * @returns boolean true if successfully queued
-       */
-      transpileTSFolderToJSFolder: (tsPath: string, jsPath: string) => boolean;
-      areTSFilesTranspiled: () => boolean;
-      tsFilesRemainingToBeCompiled: () => number;
-
-      /**
        * Create a JS Virtual Machine
        * @param jsPath folder of JS files to run
        * @returns number id to close vm later, undefined if something went wrong
@@ -200,6 +211,35 @@ declare namespace Godot {
        * @returns the path of the root VM folder
        */
       getVMPath: () => string;
+    }
+    transpileTS: {
+      /**
+       * Transpile TS Files to JS, runs async, use isTranspileQueueCompleted to check when it is completed
+       * @param tsPath folder to transpile
+       * @param jsPath folder to store js files into
+       * @returns boolean true if successfully queued
+       */
+      folderToFolder: (tsPath: string, jsPath: string) => boolean;
+
+      queue: {
+        /**
+         * Add file to transpile queue
+         * @param dirPath to save the file to
+         * @param fileName to be saved (without extension)
+         * @param contents of the ts file to be transpiled to js
+         * @returns boolean true if successful
+         */
+        addFileTask: (dirPath: string, fileName: string, contents: string) => boolean;
+
+        /**
+         * Start the transpile queue
+         * @returns true if started, false if already running
+         */
+        start: () => boolean;
+  
+        isCompleted: () => boolean;
+        filesRemaining: () => number;
+      }
     }
     zip: {
       /**
@@ -878,6 +918,9 @@ declare namespace Godot {
       },
     };
 
+    /**
+     * Note: default values listed currently/mostly refer to the entity_data.ts default values.
+     */
     particles: {
       initialize: (id: number) => boolean,
 

@@ -7,7 +7,7 @@ import { Player } from "../Player";
 import { Raycast } from "../Raycast";
 import { registerStart } from "../RegisterStart";
 import { Entity } from "./Entity";
-import { entity_Data } from "./Entity_Data";
+import { entityData } from "./Entity_Data";
 import { entityRayClick_Data, RayPropertiesPerHand } from "./EntityRayClick_Data";
 
 
@@ -31,7 +31,7 @@ function connectControllerEvents(buttonConnected: ControllerButtonPressed, rayPr
 }
 
 function onUpdate(deltaTime: number) {
-  if (entity_Data.rayClickMap.size > 0) {
+  if (entityData.rayClickMap.size > 0) {
     rayClick();
   }
 }
@@ -60,9 +60,9 @@ function perHandRayClick(rayProperties: RayPropertiesPerHand, pointer: Entity, p
     if (rayHit?.entity) {
       rayProperties.currentEntity = rayHit.entity;
 
-      const hitUVEntity = entity_Data.uvEntities.includes(rayHit.entity.nodeID ?? -1);
-      const hitPaintableEntity = entity_Data.paintableEntities.includes(rayHit.entity.nodeID ?? -1);
-      const hitClickableEntity = entity_Data.rayClickMap.has(rayHit.entity.nodeID ?? -1);
+      const hitUVEntity = entityData.uvEntities.includes(rayHit.entity.nodeID ?? -1);
+      const hitPaintableEntity = entityData.paintableEntities.includes(rayHit.entity.nodeID ?? -1);
+      const hitClickableEntity = entityData.rayClickMap.has(rayHit.entity.nodeID ?? -1);
 
       if (hitPaintableEntity || hitClickableEntity) {
         const placementPos = pos.add(forward.multiply(rayHit.distance / 2));
@@ -109,7 +109,7 @@ function callRayHitCallback(rayProperties: RayPropertiesPerHand, type: 'Clicked'
   }
 
   if (rayProperties.currentEntity && rayProperties.rayHit) {
-    const payload = entity_Data.rayClickMap.get(rayProperties.currentEntity.nodeID ?? -1);
+    const payload = entityData.rayClickMap.get(rayProperties.currentEntity.nodeID ?? -1);
 
     if (payload) {
       if (type === 'Held') {

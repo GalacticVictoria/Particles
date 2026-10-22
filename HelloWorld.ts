@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 100, spread: 90});
+    particles.particles.setParticlesProperties({ amount: 100, spread: 90, lifetimeInSeconds: 3 });
 
 
     particles.particles.play();
@@ -39,4 +39,5 @@ function start() {
     inWorldConsole.visible(true, Vector3.one);
     console.log('amount:' + GetParticlesProperties.amount(particles));
     console.log('spread:' + GetParticlesProperties.spread(particles));
+    console.log('lifetime:' + GetParticlesProperties.lifetimeInSeconds(particles));
 }

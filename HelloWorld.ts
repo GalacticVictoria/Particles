@@ -30,7 +30,7 @@ function start() {
     particleMesh.visible.set(false);
 
 
-    particles.particles.setParticlesProperties({ meshNodeID: particleMesh.nodeID });
+    particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
     particles.particles.setParticlesProperties({ amount: 100, spread: 90, lifetimeInSeconds: 3 });
 
 

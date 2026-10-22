@@ -31,14 +31,14 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 120, spread: 180, lifetimeInSeconds: 3, explosiveness: 0.5 });
+    particles.particles.setParticlesProperties({ amount: 120, spread: 180, lifetimeInSeconds: 3, randomness: 0.5 });
 
 
     particles.particles.play();
 
     inWorldConsole.visible(true, Vector3.one);
-    console.log('amount:' + GetParticlesProperties.amount(particles));
-    console.log('spread:' + GetParticlesProperties.spread(particles));
-    console.log('lifetime:' + GetParticlesProperties.lifetimeInSeconds(particles));
-    console.log('Explostiveness:' + GetParticlesProperties.explosiveness(particles));
+    console.log('amount: ' + GetParticlesProperties.amount(particles));
+    console.log('spread: ' + GetParticlesProperties.spread(particles));
+    console.log('lifetime: ' + GetParticlesProperties.lifetimeInSeconds(particles));
+    console.log('Randomness: ' + GetParticlesProperties.randomness(particles));
 }

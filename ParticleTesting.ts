@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 20, spread: 90, lifetimeInSeconds: 3, randomness: 1 });
+    particles.particles.setParticlesProperties({ amount: 20, spread: 90, lifetimeInSeconds: 3, randomness: 1, speedScale: 0.1 });
 
 
     particles.particles.play();
@@ -40,5 +40,5 @@ function start() {
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
     console.log('lifetime: ' + GetParticlesProperties.lifetimeInSeconds(particles));
-    console.log('Randomness: ' + GetParticlesProperties.randomness(particles));
+    console.log('Speed Scale : ' + GetParticlesProperties.speedScale(particles));
 }

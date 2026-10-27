@@ -9,8 +9,8 @@ import { PlayParticles } from "./Yuu API/Particles/PlayParticles";
 import { registerStart } from "./Yuu API/RegisterStart";
 import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
 
-registerStart(start);
-function start() {
+//registerStart(start);
+//function start() {
 
 
     const particles = new Entity(Vector3.up, Quaternion.one, Vector3.one, undefined, 'Empty');
@@ -31,8 +31,9 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 20, spread: 90, lifetimeInSeconds: 3, randomness: 1, speedScale: 1.5 });
-
+    particles.particles.setParticlesProperties({ amount: 20, spread: 90, lifetimeInSeconds: 3, emissionShape:  });
+    
+    
 
     particles.particles.play();
 
@@ -40,5 +41,5 @@ function start() {
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
     console.log('lifetime: ' + GetParticlesProperties.lifetimeInSeconds(particles));
-    console.log('Speed Scale : ' + GetParticlesProperties.speedScale(particles));
+
 }

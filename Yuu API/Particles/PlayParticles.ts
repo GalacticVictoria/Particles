@@ -16,7 +16,7 @@ export const PlayParticles = {
  * @param pos to play the particles
  * @param particleProperties to be played, if isOneShot is true, particles are destroyed after being played
  */
-function playParticlesAtPos(pos: Vector3, particleProperties: ParticlesProperties) {
+function playParticlesAtPos(pos: Vector3, particleProperties: Partial<ParticlesProperties>) {
   const particles = new Entity(pos, Quaternion.one, Vector3.one, undefined, 'Static');
 
   particles.particles.setParticlesProperties(particleProperties);
@@ -25,7 +25,7 @@ function playParticlesAtPos(pos: Vector3, particleProperties: ParticlesPropertie
   if (particleProperties.isOneShot) {
     Async.setTimeout(() => {
       particles.destroy();
-    }, particleProperties.lifetimeInSeconds * 2_000);
+    }, (particleProperties.lifetimeInSeconds ?? 1) * 2_000);
   }
 }
 
@@ -36,7 +36,7 @@ function playParticlesAtPos(pos: Vector3, particleProperties: ParticlesPropertie
  * @param particleProperties to be played
  * @param durationMs if set to undefined, plays indefinitely. If defined, particles are destroyed after duration.
  */
-function playParticlesAtPosForDuration(pos: Vector3, particleProperties: ParticlesProperties, durationMs: number | undefined) {
+function playParticlesAtPosForDuration(pos: Vector3, particleProperties: Partial<ParticlesProperties>, durationMs: number | undefined) {
   const particles = new Entity(pos, Quaternion.one, Vector3.one, undefined, 'Static');
 
   particles.particles.setParticlesProperties(particleProperties);
@@ -48,7 +48,7 @@ function playParticlesAtPosForDuration(pos: Vector3, particleProperties: Particl
 
       Async.setTimeout(() => {
         particles.destroy();
-      }, particleProperties.lifetimeInSeconds * 1_000);
+      }, (particleProperties.lifetimeInSeconds ?? 1) * 1_000);
     }, durationMs);
   }
 }

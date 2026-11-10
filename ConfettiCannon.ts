@@ -21,7 +21,8 @@ function getConfettiParticlesProperties(color: Color): Partial<ParticlesProperti
 
     isEmitting: true,
     isOneShot: false,
-    randomness: 0.5,
+    randomness: 1,
+    explosiveness: 0.9,
 
     amount: 24,
     lifetimeInSeconds: 3,
@@ -29,13 +30,13 @@ function getConfettiParticlesProperties(color: Color): Partial<ParticlesProperti
     scaleMin: 0,
     scaleMax: 0.06,
 
-    initialVelocityMin: 0.5,
-    initialVelocityMax: 1.75,
-    gravity: new Vector3(0, -0.75, 0),
+    initialVelocityMin: 1.5,
+    initialVelocityMax: 3.75,
+    gravity: new Vector3(0, -2.75, 0),
     spread: 2,
 
-    rotationVelocityMin: new Vector3(-5, -5, -5),
-    rotationVelocityMax: new Vector3(5, 5, 5),
-    direction: new Vector3(0.5, 1, 0),
+    rotationVelocityMin: new Vector3(-25, -25, -25),
+    rotationVelocityMax: new Vector3(25, 25, 25),
+    direction: new Vector3(0.25, 1, 0),
   }
 }

@@ -12,7 +12,7 @@ export const MyParticles = {
 
 
 function getConfettiParticlesProperties(color: Color): Partial<ParticlesProperties> {
-    const confettiPlane = spawnPrimitive.plane("Back", Vector3.zero, Vector3.one, Quaternion.one, Color.white, 1, "None", "Empty", undefined);
+    const confettiPlane = spawnPrimitive.plane("Both", Vector3.zero, Vector3.one, Quaternion.one, Color.white, 1, "None", "Empty", undefined);
     confettiPlane.visible.set(false);
     confettiPlane.mesh.color.set(color, 1);
 
@@ -37,6 +37,6 @@ function getConfettiParticlesProperties(color: Color): Partial<ParticlesProperti
 
     rotationVelocityMin: new Vector3(-25, -25, -25),
     rotationVelocityMax: new Vector3(25, 25, 25),
-    direction: new Vector3(0.25, 1, 0),
+    direction: new Vector3(0, 0, 0),
   }
 }

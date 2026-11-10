@@ -33,7 +33,7 @@ function getConfettiParticlesProperties(color: Color): Partial<ParticlesProperti
     initialVelocityMin: 1.5,
     initialVelocityMax: 3.75,
     gravity: new Vector3(0, -2.75, 0),
-    spread: 2,
+    spread: 6,
 
     rotationVelocityMin: new Vector3(-25, -25, -25),
     rotationVelocityMax: new Vector3(25, 25, 25),

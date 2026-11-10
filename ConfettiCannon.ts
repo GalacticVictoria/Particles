@@ -10,10 +10,11 @@ export const MyParticles = {
   getConfettiParticlesProperties
 };
 
-const confettiPlane = spawnPrimitive.plane("Back", Vector3.zero, Vector3.one, Quaternion.one, Color.white, 1, "None", "Empty", undefined);
 
 function getConfettiParticlesProperties(color: Color): Partial<ParticlesProperties> {
-  confettiPlane.mesh.color.set(color, 1);
+    const confettiPlane = spawnPrimitive.plane("Back", Vector3.zero, Vector3.one, Quaternion.one, Color.white, 1, "None", "Empty", undefined);
+    confettiPlane.visible.set(false);
+    confettiPlane.mesh.color.set(color, 1);
 
   return {
     meshNodeID: confettiPlane.mesh.nodeID ?? -1,
@@ -22,15 +23,19 @@ function getConfettiParticlesProperties(color: Color): Partial<ParticlesProperti
     isOneShot: false,
     randomness: 0.5,
 
-    amount: 48,
+    amount: 24,
     lifetimeInSeconds: 3,
     speedScale: 1,
     scaleMin: 0,
-    scaleMax: 0.04,
+    scaleMax: 0.06,
 
     initialVelocityMin: 0.5,
     initialVelocityMax: 1.75,
-    gravity: Vector3.moonGravity,
+    gravity: new Vector3(0, -0.75, 0),
     spread: 2,
+
+    rotationVelocityMin: new Vector3(-5, -5, -5),
+    rotationVelocityMax: new Vector3(5, 5, 5),
+    direction: new Vector3(0.5, 1, 0),
   }
 }

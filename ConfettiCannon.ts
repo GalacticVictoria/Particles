@@ -37,6 +37,6 @@ function getConfettiParticlesProperties(color: Color): Partial<ParticlesProperti
 
     rotationVelocityMin: new Vector3(-25, -25, -25),
     rotationVelocityMax: new Vector3(25, 25, 25),
-    direction: new Vector3(0, 0, 0),
+    direction: new Vector3(0, 1, 0),
   }
 }

@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, turbulence: {noiseScale: 9, noiseSpeed: new Vector3(0, 0, 0), noiseStrength: 5, noiseSpeedRandom: 0.2} });
+particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, turbulence: {noiseScale: 20, noiseSpeed: new Vector3(0, 0, 0), noiseStrength: 1, noiseSpeedRandom: 0.2} });
     
     
 
@@ -41,10 +41,10 @@ particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInS
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
     console.log('direction: ' + GetParticlesProperties.direction(particles));
-    console.log('turbulence:' + GetParticlesProperties.turbulence.noiseScale(particles));
-    console.log('turbulence:' + GetParticlesProperties.turbulence.noiseSpeed(particles));
-    console.log('turbulence:' + GetParticlesProperties.turbulence.noiseStrength(particles));
-    console.log('turbulence:' + GetParticlesProperties.turbulence.noiseSpeedRandom(particles));
+    console.log('turbulence noiseScale:' + GetParticlesProperties.turbulence.noiseScale(particles));
+    console.log('turbulence noiseSpeed:' + GetParticlesProperties.turbulence.noiseSpeed(particles));
+    console.log('turbulence noiseStrength:' + GetParticlesProperties.turbulence.noiseStrength(particles));
+    console.log('turbulence noiseSpeedRandom:' + GetParticlesProperties.turbulence.noiseSpeedRandom(particles));
     
 
 

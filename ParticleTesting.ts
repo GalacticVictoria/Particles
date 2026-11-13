@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, rotationVelocityMin: new Vector3(10, 10, 10), rotationVelocityMax: new Vector3(180, 180, 180)});
+    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, gravity: new Vector3(0, 10, 0)});
     
     
 
@@ -40,9 +40,9 @@ function start() {
     inWorldConsole.visible(true, Vector3.one);
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
-    console.log('lifetime: ' + GetParticlesProperties.lifetimeInSeconds(particles));
-    console.log("rotationVelocityMin:" + GetParticlesProperties.rotationVelocity.min(particles));
-    console.log("rotationVelocityMax:" + GetParticlesProperties.rotationVelocity.max(particles));
+    console.log('gravity: ' + GetParticlesProperties.gravity(particles));
+    console.log('rotationVelocityMin:' + GetParticlesProperties.rotationVelocity.min(particles));
+    
 
 
 }

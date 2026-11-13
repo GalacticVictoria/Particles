@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, direction: new Vector3(0, -1.5, 10)});
+    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, tangentialAccelMax: 100 });
     
     
 
@@ -41,7 +41,8 @@ function start() {
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
     console.log('direction: ' + GetParticlesProperties.direction(particles));
-    console.log('rotationVelocityMin:' + GetParticlesProperties.rotationVelocity.min(particles));
+    console.log('tangentialAccelMin:' + GetParticlesProperties.tangentialAccel.min(particles));
+    console.log('tangentialAccelMax:' + GetParticlesProperties.tangentialAccel.max(particles));
     
 
 

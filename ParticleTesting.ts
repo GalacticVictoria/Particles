@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, emissionShape: "Box"});
+    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, emissionShape: "Ring", emissionShapeProperties: {ring: {axis: new Vector3(0, 90, 0), height: 1, radius: 1, innerRadius: 0, coneAngle: 90}}});
     
     
 
@@ -41,7 +41,11 @@ function start() {
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
     console.log('emissionShape: ' + GetParticlesProperties.emissionShape.shape(particles));
-    console.log('boxExtents: ' + GetParticlesProperties.emissionShape.boxExtents(particles));
+    console.log('Ring Axis: ' + GetParticlesProperties.emissionShape.ring.axis(particles));
+    console.log('Ring Axis: ' + GetParticlesProperties.emissionShape.ring.height(particles));
+    console.log('Ring Axis: ' + GetParticlesProperties.emissionShape.ring.radius(particles));
+    console.log('Ring Axis: ' + GetParticlesProperties.emissionShape.ring.innerRadius(particles));
+    console.log('Ring Axis: ' + GetParticlesProperties.emissionShape.ring.coneAngle(particles));
 
 
     

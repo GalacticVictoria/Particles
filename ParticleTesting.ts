@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, scaleMin: 0.1, scaleMax: 0.4});
+    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, scaleMin: 0.01, scaleMax: 0.1});
     
     
 

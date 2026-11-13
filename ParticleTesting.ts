@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, turbulence: {noiseScale: 9, noiseSpeed: new Vector3(0, 0, 0), noiseStrength: 1, noiseSpeedRandom: 0.2} });
+particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, turbulence: {noiseScale: 9, noiseSpeed: new Vector3(0, 0, 0), noiseStrength: 5, noiseSpeedRandom: 0.2} });
     
     
 

@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 20, spread: 10, lifetimeInSeconds: 3, direction: new Vector3(0, 1, 0)});
+    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, scaleMin: 0.5, scaleMax: 1});
     
     
 
@@ -41,7 +41,8 @@ function start() {
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
     console.log('lifetime: ' + GetParticlesProperties.lifetimeInSeconds(particles));
-    console.log("direction:" + GetParticlesProperties.direction(particles));
+    console.log("scaleMin:" + GetParticlesProperties.scale.min(particles));
+    console.log("scaleMax:" + GetParticlesProperties.scale.max(particles));
 
 
 }

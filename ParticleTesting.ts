@@ -40,8 +40,8 @@ function start() {
     inWorldConsole.visible(true, Vector3.one);
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
-    console.log('boxExtents: ' + GetParticlesProperties.emissionShape.boxExtents(particles));
     console.log('emissionShape: ' + GetParticlesProperties.emissionShape.shape(particles));
+    console.log('boxExtents: ' + GetParticlesProperties.emissionShape.boxExtents(particles));
 
 
     

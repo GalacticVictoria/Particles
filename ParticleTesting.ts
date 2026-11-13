@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, emissionShape: "Ring", emissionShapeProperties: {ring: {axis: new Vector3(0, 90, 0), height: 1, radius: 1, innerRadius: 0, coneAngle: 90}}});
+    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, emissionShape: "Ring"});
     
     
 

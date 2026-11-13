@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, emissionShape: "Point" });
+    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, emissionShape: "Sphere Surface", emissionShapeProperties: {sphereRadius: 1} });
     
     
 
@@ -40,7 +40,7 @@ function start() {
     inWorldConsole.visible(true, Vector3.one);
     console.log('amount: ' + GetParticlesProperties.amount(particles));
     console.log('spread: ' + GetParticlesProperties.spread(particles));
-    // console.log('sphereRadius: ' + GetParticlesProperties.emissionShape.sphereRadius(particles));
+    console.log('sphereRadius: ' + GetParticlesProperties.emissionShape.sphereRadius(particles));
     console.log('emissionShape: ' + GetParticlesProperties.emissionShape.shape(particles));
     console.log('turbulence noiseScale:' + GetParticlesProperties.turbulence.noiseScale(particles));
 

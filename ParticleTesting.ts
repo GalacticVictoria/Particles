@@ -31,7 +31,7 @@ function start() {
 
 
     particles.particles.setParticlesProperties({ meshNodeID: particleMesh.mesh.nodeID });
-particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, turbulence: {noiseScale: 20, noiseSpeed: new Vector3(0, 0, 0), noiseStrength: 1, noiseSpeedRandom: 0.1} });
+    particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInSeconds: 3, transformAlign: "Billboard" });
     
     
 
@@ -42,9 +42,8 @@ particles.particles.setParticlesProperties({ amount: 40, spread: 10, lifetimeInS
     console.log('spread: ' + GetParticlesProperties.spread(particles));
     console.log('direction: ' + GetParticlesProperties.direction(particles));
     console.log('turbulence noiseScale:' + GetParticlesProperties.turbulence.noiseScale(particles));
-    console.log('turbulence noiseSpeed:' + GetParticlesProperties.turbulence.noiseSpeed(particles));
-    console.log('turbulence noiseStrength:' + GetParticlesProperties.turbulence.noiseStrength(particles));
-    console.log('turbulence noiseSpeedRandom:' + GetParticlesProperties.turbulence.noiseSpeedRandom(particles));
+    console.log('transformAlign:' + GetParticlesProperties.transformAlign(particles));
+
     
 
 
